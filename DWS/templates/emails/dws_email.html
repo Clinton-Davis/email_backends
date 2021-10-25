@@ -1,0 +1,20 @@
+{% block subject %} 
+Digital-Web Soluctions contact form message
+{% endblock subject %}
+{% block text_body %}
+New message for {{email.name}}
+Email - {{email.email}}
+Message: {{email.message}}
+Date: {{email.date}}
+{% endblock text_body%}
+
+{% block html_body %} 
+<section style="font-family: sans-serif;">
+<ul>
+    <li>New message for {{email.name}}</li>
+    <li>Email - {{email.email}}</li>
+    <li>Message: {{email.message}}</li>
+    <li>Date: {{email.date}}</li>
+</ul>
+</section>
+{% endblock html_body %}
