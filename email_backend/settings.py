@@ -84,6 +84,7 @@ if PRODUCTION:
     DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 
 else:
+    # DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -150,31 +151,35 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 DEV = "cdonlysolutions@gmail.com"
 
 # Email
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 if PRODUCTION:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.gmail.com"
-    EMAIL_PORT = 587
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
     NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL")
-    EMAIL_USE_TLS = True
+
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_HOST = "smtp.gmail.com"
-    EMAIL_PORT = 587
     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
     NOTIFY_EMAIL = env("NOTIFY_EMAIL")
-    EMAIL_USE_TLS = True
 
+if PRODUCTION:
+    CORS_ALLOWED_ORIGINS = [
+        "https://www.digital-web.solutions",
+    ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8080*",
-    "http://127.0.0.1:5500",
-    "http://localhost:8080",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000*",
-    "https://www.digital-web.solutions",
-]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "http://127.0.0.1:8080*",
+        "http://127.0.0.1:5500",
+        "http://localhost:8080",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000*",
+        "https://www.digital-web.solutions",
+    ]
