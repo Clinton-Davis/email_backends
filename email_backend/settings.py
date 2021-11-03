@@ -172,6 +172,7 @@ else:
 if PRODUCTION:
     CORS_ALLOWED_ORIGINS = [
         "https://www.digital-web.solutions",
+        "http://127.0.0.1:5500",
     ]
 
 else:

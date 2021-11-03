@@ -31,3 +31,11 @@ class ShowEmailView(generics.ListAPIView):
     queryset = RecievedEmail.objects.all()
     serializer_class = EmailSerializer
     permission_classes = [AllowAny]
+
+
+class WakeUpView(APIView):
+    permission_classes = [AllowAny]
+    serializer_class = EmailSerializer
+
+    def get(self, request):
+        return Response({"message": "I'm awake"})
