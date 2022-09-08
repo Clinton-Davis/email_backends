@@ -3,7 +3,7 @@ dj() {
 }
 
 env() {
-	source env/Scripts/activate
+	source env/bin/activate
 }
 
 makemigrations() {
