@@ -1,7 +1,6 @@
 from django.urls import path
 from DWS.api.views import RecievedEmailView, ShowEmailView, WakeUpView
 
-
 app_name = "DWS"
 
 urlpatterns = [
