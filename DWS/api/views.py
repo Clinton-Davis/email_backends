@@ -8,22 +8,21 @@ from rest_framework.views import APIView
 from DWS.email import DWSEmail
 from django.conf import settings
 
-dev = settings.DEV
-
 
 class RecievedEmailView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+        breakpoint()
         serializer = EmailSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             new_message = serializer.save()
             if new_message:
                 context = {"email": new_message}
-                DWSEmail(self.request, context).send([dev])
+                DWSEmail(self.request, context).send(settings.DEV)
                 # send email
                 return Response(status=status.HTTP_201_CREATED)
-            # Log responce
+            # Log response
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

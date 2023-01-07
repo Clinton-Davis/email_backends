@@ -30,6 +30,8 @@ else:
 
 ALLOWED_HOSTS = ["127.0.0.1", "email-backends.herokuapp.com"]
 
+DEV = ["cdonlysolutions@gmail.com"]
+
 
 # Application definition
 
@@ -79,18 +81,19 @@ WSGI_APPLICATION = "email_backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-if PRODUCTION:
+# if PRODUCTION:
 
-    DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+DATABASES = {"default": dj_database_url.parse(
+    os.environ.get("DATABASE_URL"))}
 
-else:
-    # DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+# else:
+# DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 # Password validation
@@ -148,7 +151,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-DEV = "cdonlysolutions@gmail.com"
 
 # Email
 EMAIL_HOST = "smtp.gmail.com"
