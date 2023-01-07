@@ -13,7 +13,6 @@ class RecievedEmailView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        breakpoint()
         serializer = EmailSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             new_message = serializer.save()
