@@ -17,3 +17,7 @@ migrate() {
 freeze(){
 	pip freeze > requirements.txt
 }
+
+djr() {
+	python manage.py runserver
+}

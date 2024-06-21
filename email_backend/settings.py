@@ -9,8 +9,8 @@ env = environ.Env()
 environ.Env.read_env()
 
 
-PRODUCTION = True
-DEBUG = True
+DEBUG = os.getenv("DEBUG")
+ENVIRONMENT = os.getenv("ENVIRONMENT")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,16 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if PRODUCTION:
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-else:
-    SECRET_KEY = env("SECRET_KEY")
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ["127.0.0.1", "email-backends.herokuapp.com"]
 
-DEV = ["cdonlysolutions@gmail.com"]
+DEV = ["clintongadavis@gmail.com"]
 
 
 # Application definition
@@ -83,17 +82,15 @@ WSGI_APPLICATION = "email_backend.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # if PRODUCTION:
 
-DATABASES = {"default": dj_database_url.parse(
-    os.environ.get("DATABASE_URL"))}
-
-# else:
-# DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+if os.environ.get("ENVIRONMENT") == "local":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))}
 
 
 # Password validation
@@ -157,27 +154,22 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-if PRODUCTION:
+
+if os.environ.get("ENVIRONMENT") == "local":
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
+    DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
+    NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL")
+else:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
     DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_HOST_USER")
     NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL")
 
-else:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASS")
-    DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
-    NOTIFY_EMAIL = env("NOTIFY_EMAIL")
 
-if PRODUCTION:
-    CORS_ALLOWED_ORIGINS = [
-        "https://www.digital-web.solutions",
-        "http://127.0.0.1:5500",
-    ]
-
-else:
+if os.environ.get("ENVIRONMENT") == "local":
     CORS_ALLOWED_ORIGINS = [
         "http://127.0.0.1:8080*",
         "http://127.0.0.1:5500",
@@ -185,4 +177,9 @@ else:
         "http://localhost:8000",
         "http://127.0.0.1:8000*",
         "https://www.digital-web.solutions",
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://www.digital-web.solutions",
+        "http://127.0.0.1:5500",
     ]
