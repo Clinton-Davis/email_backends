@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "DWS",
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -176,10 +177,10 @@ if os.environ.get("ENVIRONMENT") == "local":
         "http://localhost:8080",
         "http://localhost:8000",
         "http://127.0.0.1:8000*",
+        "http://127.0.0.1:5500",
         "https://www.digital-web.solutions",
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
         "https://www.digital-web.solutions",
-        "http://127.0.0.1:5500",
     ]
