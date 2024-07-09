@@ -194,7 +194,7 @@ else:
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://www.digital-web.solutions",
+    "https://www.digital-web.solutions/",
 ]
 
 if os.getenv("ENVIRONMENT") == "local":
