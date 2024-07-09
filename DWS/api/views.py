@@ -9,7 +9,7 @@ from DWS.email import DWSEmail
 from django.conf import settings
 
 
-class RecievedEmailView(APIView):
+class ReceivedEmailView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):

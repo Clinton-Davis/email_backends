@@ -70,8 +70,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -193,20 +193,24 @@ else:
     NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL")
 
 
-if os.environ.get("ENVIRONMENT") == "local":
-    CORS_ALLOWED_ORIGINS = [
-        "http://127.0.0.1:8080*",
-        "http://127.0.0.1:5500",
-        "http://localhost:8080",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000*",
-        "http://127.0.0.1:5500",
-        "https://www.digital-web.solutions",
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = [
-        "https://www.digital-web.solutions",
-    ]
+CORS_ALLOWED_ORIGINS = [
+    "https://www.digital-web.solutions",
+]
+
+if os.getenv("ENVIRONMENT") == "local":
+    CORS_ALLOWED_ORIGINS.extend(
+        [
+            "http://127.0.0.1:8080",
+            "http://127.0.0.1:5500",
+            "http://localhost:8080",
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+        ]
+    )
+
+# Optionally allow all origins in a development environment for easier testing
+if os.getenv("DEBUG") == "True":
+    CORS_ALLOW_ALL_ORIGINS = True
 
 # CORS settings
 CORS_ALLOW_HEADERS = [
@@ -229,3 +233,4 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
+CORS_ALLOW_CREDENTIALS = True
