@@ -209,8 +209,8 @@ if os.getenv("ENVIRONMENT") == "local":
     )
 
 # Optionally allow all origins in a development environment for easier testing
-if os.getenv("DEBUG") == "True":
-    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 # CORS settings
 CORS_ALLOW_HEADERS = [
